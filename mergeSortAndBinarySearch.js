@@ -34,7 +34,7 @@ function binarySearch(arr, a){
     let start = 0;
     let end = arr.length;
     let mid = Math.floor((start+end)/2);
-    while(arr[mid]!==a){
+    while(arr[mid]!==a && start<=end){
         if(start>=end) return -1;
         
         if(arr[mid] > a){

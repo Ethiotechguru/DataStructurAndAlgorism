@@ -43,14 +43,14 @@ class MaxBinaryHeap{
     add(val){
         this.list.push(val);
         let cIdx = this.list.length-1;
-        let temp;
         while(cIdx>0){
             let pIdx = Math.floor((cIdx-1)/2);
             if(this.list[cIdx]<=this.list[pIdx]) break;
-            temp = this.list[pIdx];
+            let temp = this.list[pIdx];
             this.list[pIdx] = this.list[cIdx];
             this.list[cIdx] = temp;
-            cIdx = pIdx;
+            cIdx = pIdx;//[10,1]
+                        //0  1
         }
         return this.list;
     }
@@ -58,27 +58,29 @@ class MaxBinaryHeap{
     removeMax(){
         let last = this.list.pop();
         if(this.list.length) this.list[0] = last;
+        return this.sinkDown();
+    }
+    sinkDown(){
         let pIdx = 0;
         while(true){
             let lCIdx = (2*pIdx)+1;
             let rCIdx = lCIdx+1;
-            let temp;
-            if(this.list[rCIdx]>this.list[lCIdx] &&
-                this.list[rCIdx]>this.list[pIdx]
-            ){
-                temp = this.list[pIdx];
-                this.list[pIdx] = this.list[rCIdx];
-                this.list[rCIdx] = temp;
-                pIdx = lCIdx;
+            let swap;
+            if(lCIdx>=this.list.length) return this.list;
+            if(this.list[rCIdx]>this.list[lCIdx]){
+                if(this.list[rCIdx]<this.list[pIdx]) break;
+                if(this.list[rCIdx]>this.list[pIdx]){
+                    swap = rCIdx; 
+                }
+            } 
+            else{
+                if(!(this.list[lCIdx]>this.list[pIdx] && lCIdx<this.list.length)) break;
+                swap = lCIdx;
             }
-            else if(this.list[lCIdx]>this.list[pIdx]){
-                temp = this.list[pIdx];
-                this.list[pIdx] = this.list[lCIdx];
-                this.list[lCIdx] = temp;
-                pIdx = lCIdx;
-            }else{
-                break;
-            }
+            let temp = this.list[pIdx];
+            this.list[pIdx] = this.list[swap];
+            this.list[swap] = temp;
+            pIdx = lCIdx;
         }
         return this.list;
     }
